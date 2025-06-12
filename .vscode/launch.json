@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-CostureiraPlusApplication<CostureiraPlus>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.cefet.CostureiraPlus.CostureiraPlusApplication",
+            "projectName": "CostureiraPlus",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
