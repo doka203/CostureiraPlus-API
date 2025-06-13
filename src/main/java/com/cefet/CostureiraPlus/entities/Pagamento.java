@@ -17,9 +17,9 @@ public class Pagamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(nullable = false)
-    private String dataVencimento;
+    private String data_vencimento;
     @Column(nullable = false)
-    private String dataPagamento;
+    private String data_pagamento;
     @Column(nullable = false)
     private double valor;
     @ManyToOne
@@ -30,10 +30,10 @@ public class Pagamento {
 
     }
 
-    public Pagamento(int id, String dataVencimento, String dataPagamento, double valor, Pedido pedido) {
+    public Pagamento(int id, String data_vencimento, String data_pagamento, double valor, Pedido pedido) {
         this.id = id;
-        this.dataVencimento = dataVencimento;
-        this.dataPagamento = dataPagamento;
+        this.data_vencimento = data_vencimento;
+        this.data_pagamento = data_pagamento;
         this.valor = valor;
         this.pedido = pedido;
     }
@@ -47,19 +47,19 @@ public class Pagamento {
     }
 
     public String getDataVencimento() {
-        return dataVencimento;
+        return data_vencimento;
     }
 
-    public void setDataVencimento(String dataVencimento) {
-        this.dataVencimento = dataVencimento;
+    public void setDataVencimento(String data_vencimento) {
+        this.data_vencimento = data_vencimento;
     }
 
     public String getDataPagamento() {
-        return dataPagamento;
+        return data_pagamento;
     }
 
-    public void setDataPagamento(String dataPagamento) {
-        this.dataPagamento = dataPagamento;
+    public void setDataPagamento(String data_pagamento) {
+        this.data_pagamento = data_pagamento;
     }
 
     public double getValor() {

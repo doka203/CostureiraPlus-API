@@ -19,15 +19,15 @@ public class Pedido {
     @Column(nullable = false)
     private String descricao;
     @Column(nullable = false)
-    private String dataPedido;
+    private String data_pedido;
     @Column(nullable = false)
-    private String dataEntrega;
+    private String data_entrega;
     @Column(nullable = false)
     private String status;
     @Column(nullable = false)
-    private String formaPagamento;
+    private String forma_pagamento;
     @Column(nullable = false)
-    private int numeroParcelas;
+    private int numero_parcelas;
     @ManyToOne
     @JoinColumn(name = "id_usuario_cliente")
     private Usuario usuarioCliente;
@@ -39,15 +39,15 @@ public class Pedido {
 
     }
 
-    public Pedido(int id, String descricao, String dataPedido, String dataEntrega, String status,
-                  String formaPagamento, int numeroParcelas, Usuario usuarioCliente, Usuario usuarioCostureira) {
+    public Pedido(int id, String descricao, String data_pedido, String data_entrega, String status,
+                  String forma_pagamento, int numero_parcelas, Usuario usuarioCliente, Usuario usuarioCostureira) {
         this.id = id;
         this.descricao = descricao;
-        this.dataPedido = dataPedido;
-        this.dataEntrega = dataEntrega;
+        this.data_pedido = data_pedido;
+        this.data_entrega = data_entrega;
         this.status = status;
-        this.formaPagamento = formaPagamento;
-        this.numeroParcelas = numeroParcelas;
+        this.forma_pagamento = forma_pagamento;
+        this.numero_parcelas = numero_parcelas;
         this.usuarioCliente = usuarioCliente;
         this.usuarioCostureira = usuarioCostureira;
     }
@@ -69,19 +69,19 @@ public class Pedido {
     }
 
     public String getDataPedido() {
-        return dataPedido;
+        return data_pedido;
     }
 
-    public void setDataPedido(String dataPedido) {
-        this.dataPedido = dataPedido;
+    public void setDataPedido(String data_pedido) {
+        this.data_pedido = data_pedido;
     }
 
     public String getDataEntrega() {
-        return dataEntrega;
+        return data_entrega;
     }
 
-    public void setDataEntrega(String dataEntrega) {
-        this.dataEntrega = dataEntrega;
+    public void setDataEntrega(String data_entrega) {
+        this.data_entrega = data_entrega;
     }
 
     public String getStatus() {
@@ -93,19 +93,19 @@ public class Pedido {
     }
 
     public String getFormaPagamento() {
-        return formaPagamento;
+        return forma_pagamento;
     }
 
-    public void setFormaPagamento(String formaPagamento) {
-        this.formaPagamento = formaPagamento;
+    public void setFormaPagamento(String forma_pagamento) {
+        this.forma_pagamento = forma_pagamento;
     }
 
     public int getNumeroParcelas() {
-        return numeroParcelas;
+        return numero_parcelas;
     }
 
-    public void setNumeroParcelas(int numeroParcelas) {
-        this.numeroParcelas = numeroParcelas;
+    public void setNumeroParcelas(int numero_parcelas) {
+        this.numero_parcelas = numero_parcelas;
     }
 
     public Usuario getUsuarioCliente() {
