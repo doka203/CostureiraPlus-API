@@ -15,7 +15,7 @@ public class Pedido {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     @Column(nullable = false)
     private String descricao;
     @Column(nullable = false)
@@ -39,24 +39,24 @@ public class Pedido {
 
     }
 
-    public Pedido(int id, String descricao, String data_pedido, String data_entrega, String status,
-                  String forma_pagamento, int numero_parcelas, Usuario usuarioCliente, Usuario usuarioCostureira) {
+    public Pedido(long id, String descricao, String dataPedido, String dataEntrega, String status,
+                  String formaPagamento, int numeroParcelas, Usuario usuarioCliente, Usuario usuarioCostureira) {
         this.id = id;
         this.descricao = descricao;
-        this.data_pedido = data_pedido;
-        this.data_entrega = data_entrega;
+        this.data_pedido = dataPedido;
+        this.data_entrega = dataEntrega;
         this.status = status;
-        this.forma_pagamento = forma_pagamento;
-        this.numero_parcelas = numero_parcelas;
+        this.forma_pagamento = formaPagamento;
+        this.numero_parcelas = numeroParcelas;
         this.usuarioCliente = usuarioCliente;
         this.usuarioCostureira = usuarioCostureira;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

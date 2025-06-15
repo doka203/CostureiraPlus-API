@@ -15,7 +15,7 @@ public class Visita {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     @Column(nullable = false)
     private String data;
     @Column(nullable = false)
@@ -35,7 +35,7 @@ public class Visita {
 
     }
 
-    public Visita(int id, String data, String hora, String descricao, Usuario usuarioCliente,
+    public Visita(long id, String data, String hora, String descricao, Usuario usuarioCliente,
             Usuario usuarioCostureira) {
         this.id = id;
         this.data = data;
@@ -45,11 +45,11 @@ public class Visita {
         this.usuarioCostureira = usuarioCostureira;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

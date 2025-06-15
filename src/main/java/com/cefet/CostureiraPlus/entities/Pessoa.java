@@ -13,7 +13,7 @@ public class Pessoa {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     @Column(nullable = false)
     private String nome;
     @Column(nullable = false, unique = true)
@@ -29,7 +29,7 @@ public class Pessoa {
 
     }
 
-    public Pessoa(int id, String nome, String cpf, String endereco, String telefone, String email) {
+    public Pessoa(long id, String nome, String cpf, String endereco, String telefone, String email) {
         this.id = id;
         this.nome = nome;
         this.cpf = cpf;
@@ -38,11 +38,11 @@ public class Pessoa {
         this.email = email;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

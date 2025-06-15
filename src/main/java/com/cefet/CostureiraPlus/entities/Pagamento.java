@@ -15,7 +15,7 @@ public class Pagamento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     @Column(nullable = false)
     private String data_vencimento;
     @Column(nullable = false)
@@ -30,7 +30,7 @@ public class Pagamento {
 
     }
 
-    public Pagamento(int id, String data_vencimento, String data_pagamento, double valor, Pedido pedido) {
+    public Pagamento(long id, String data_vencimento, String data_pagamento, double valor, Pedido pedido) {
         this.id = id;
         this.data_vencimento = data_vencimento;
         this.data_pagamento = data_pagamento;
@@ -38,11 +38,11 @@ public class Pagamento {
         this.pedido = pedido;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

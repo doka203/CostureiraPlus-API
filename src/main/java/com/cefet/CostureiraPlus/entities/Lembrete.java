@@ -15,7 +15,7 @@ public class Lembrete {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     @Column(nullable = false)
     private String descricao;
     @Column(nullable = false)
@@ -32,7 +32,7 @@ public class Lembrete {
 
     }
 
-    public Lembrete(int id, String descricao, String data, String hora, String status, Pedido pedido) {
+    public Lembrete(long id, String descricao, String data, String hora, String status, Pedido pedido) {
         this.id = id;
         this.descricao = descricao;
         this.data = data;
@@ -41,11 +41,11 @@ public class Lembrete {
         this.pedido = pedido;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
