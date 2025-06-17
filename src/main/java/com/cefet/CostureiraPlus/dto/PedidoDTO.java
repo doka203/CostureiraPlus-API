@@ -59,7 +59,7 @@ public class PedidoDTO {
         return numero_parcelas;
     }
 
-    public Usuario getUsuarioCLiente() {
+    public Usuario getUsuarioCliente() {
         return usuarioCLiente;
     }
 
