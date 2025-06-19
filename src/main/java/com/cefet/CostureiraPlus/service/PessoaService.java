@@ -3,6 +3,7 @@ package com.cefet.CostureiraPlus.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.cefet.CostureiraPlus.dto.PessoaDTO;
 import com.cefet.CostureiraPlus.entities.Pessoa;
@@ -10,6 +11,7 @@ import com.cefet.CostureiraPlus.repositories.PessoaRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 
+@Service
 public class PessoaService {
 
     @Autowired
@@ -40,7 +42,7 @@ public class PessoaService {
         return new PessoaDTO(pessoaSalvo);
     }
 
-    // Atualizar Tipo 
+    // Atualizar Tipo
     public PessoaDTO update(Long id, PessoaDTO dto) {
         Pessoa pessoa = pessoaRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Pessoa com ID: " + id + " não encontrada."));

@@ -10,26 +10,32 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.cefet.CostureiraPlus.dto.UsuarioDTO;
 import com.cefet.CostureiraPlus.service.UsuarioService;
 
+@RestController
+@RequestMapping("/usuarios")
 public class UsuarioController {
 
-    @Autowired
+	@Autowired
 	private UsuarioService usuarioService;
 
 	@GetMapping("/{id}")
-	//@Operation(summary = "Buscar usuario por ID", description = "Retorna os dados de um usuario específico.")
+	// @Operation(summary = "Buscar usuario por ID", description = "Retorna os dados
+	// de um usuario específico.")
 	public ResponseEntity<UsuarioDTO> findById(
-			//@Parameter(description = "ID do usuario a ser buscado", example = "1")
+			// @Parameter(description = "ID do usuario a ser buscado", example = "1")
 			@PathVariable Long id) {
 		UsuarioDTO usuarioDTO = usuarioService.findById(id);
 		return ResponseEntity.ok(usuarioDTO);
 	}
 
 	@GetMapping
-	//@Operation(summary = "Listar todas os usuarios", description = "Retorna a lista de todas os usuarios cadastrados.")
+	// @Operation(summary = "Listar todas os usuarios", description = "Retorna a
+	// lista de todas os usuarios cadastrados.")
 	public ResponseEntity<List<UsuarioDTO>> findAll() {
 		List<UsuarioDTO> usuarioDTOs = usuarioService.findAll();
 		return ResponseEntity.ok(usuarioDTOs);
@@ -52,5 +58,5 @@ public class UsuarioController {
 		usuarioService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
-	
+
 }

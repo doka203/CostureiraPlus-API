@@ -10,26 +10,32 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.cefet.CostureiraPlus.dto.VisitaDTO;
 import com.cefet.CostureiraPlus.service.VisitaService;
 
+@RestController
+@RequestMapping("/visitas")
 public class VisitaController {
 
-    @Autowired
+	@Autowired
 	private VisitaService visitaService;
 
 	@GetMapping("/{id}")
-	//@Operation(summary = "Buscar visita por ID", description = "Retorna os dados de uma visita específica.")
+	// @Operation(summary = "Buscar visita por ID", description = "Retorna os dados
+	// de uma visita específica.")
 	public ResponseEntity<VisitaDTO> findById(
-			//@Parameter(description = "ID da visita a ser buscada", example = "1")
+			// @Parameter(description = "ID da visita a ser buscada", example = "1")
 			@PathVariable Long id) {
 		VisitaDTO visitaDTO = visitaService.findById(id);
 		return ResponseEntity.ok(visitaDTO);
 	}
 
 	@GetMapping
-	//@Operation(summary = "Listar todas os usuarios", description = "Retorna a lista de todas os usuarios cadastrados.")
+	// @Operation(summary = "Listar todas os usuarios", description = "Retorna a
+	// lista de todas os usuarios cadastrados.")
 	public ResponseEntity<List<VisitaDTO>> findAll() {
 		List<VisitaDTO> visitaDTOs = visitaService.findAll();
 		return ResponseEntity.ok(visitaDTOs);

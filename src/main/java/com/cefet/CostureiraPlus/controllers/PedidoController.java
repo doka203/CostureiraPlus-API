@@ -17,24 +17,26 @@ import com.cefet.CostureiraPlus.dto.PedidoDTO;
 import com.cefet.CostureiraPlus.service.PedidoService;
 
 @RestController
-@RequestMapping("/Pedidos")
-//@Tag(name = "Pedido", description = "Operações relacionadas a pedido")
+@RequestMapping("/pedidos")
+// @Tag(name = "Pedido", description = "Operações relacionadas a pedido")
 public class PedidoController {
 
     @Autowired
     private PedidoService pedidoService;
 
     @GetMapping("/{id}")
-    //@Operation(summary = "Buscar pedido por ID", description = "Retorna os dados de um pedido específico")
+    // @Operation(summary = "Buscar pedido por ID", description = "Retorna os dados
+    // de um pedido específico")
     public ResponseEntity<PedidoDTO> findById(
-            //@Parameter(description = "ID do pedido a ser buscado", exemple = "1")
+            // @Parameter(description = "ID do pedido a ser buscado", exemple = "1")
             @PathVariable Long id) {
         PedidoDTO pedidoDTO = pedidoService.findById(id);
         return ResponseEntity.ok(pedidoDTO);
     }
 
     @GetMapping
-    //@Operation(summary = "Listar todas os pedidos", description = "Retorna a lista de todos os pedidos cadastrados.")
+    // @Operation(summary = "Listar todas os pedidos", description = "Retorna a
+    // lista de todos os pedidos cadastrados.")
     public ResponseEntity<List<PedidoDTO>> findAll() {
         List<PedidoDTO> pedidoDTOs = pedidoService.findAll();
         return ResponseEntity.ok(pedidoDTOs);

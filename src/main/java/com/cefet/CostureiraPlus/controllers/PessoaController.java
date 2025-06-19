@@ -17,24 +17,26 @@ import com.cefet.CostureiraPlus.dto.PessoaDTO;
 import com.cefet.CostureiraPlus.service.PessoaService;
 
 @RestController
-@RequestMapping("/Pessoas")
-//@Tag(name = "Pessoa", description = "Operações relacionadas a pessoa")
+@RequestMapping("/pessoas")
+// @Tag(name = "Pessoa", description = "Operações relacionadas a pessoa")
 public class PessoaController {
 
-    @Autowired
+	@Autowired
 	private PessoaService pessoaService;
 
 	@GetMapping("/{id}")
-	//@Operation(summary = "Buscar pessoa por ID", description = "Retorna os dados de uma pessoa específica.")
+	// @Operation(summary = "Buscar pessoa por ID", description = "Retorna os dados
+	// de uma pessoa específica.")
 	public ResponseEntity<PessoaDTO> findById(
-			//@Parameter(description = "ID da pessoa a ser buscada", example = "1")
+			// @Parameter(description = "ID da pessoa a ser buscada", example = "1")
 			@PathVariable Long id) {
 		PessoaDTO pessoaDTO = pessoaService.findById(id);
 		return ResponseEntity.ok(pessoaDTO);
 	}
 
 	@GetMapping
-	//@Operation(summary = "Listar todas as pessoas", description = "Retorna a lista de todas as pessoas cadastradas.")
+	// @Operation(summary = "Listar todas as pessoas", description = "Retorna a
+	// lista de todas as pessoas cadastradas.")
 	public ResponseEntity<List<PessoaDTO>> findAll() {
 		List<PessoaDTO> pessoaDTOs = pessoaService.findAll();
 		return ResponseEntity.ok(pessoaDTOs);
@@ -57,6 +59,5 @@ public class PessoaController {
 		pessoaService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
-	
 
 }

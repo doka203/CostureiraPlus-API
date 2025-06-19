@@ -3,6 +3,7 @@ package com.cefet.CostureiraPlus.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.cefet.CostureiraPlus.dto.PedidoDTO;
 import com.cefet.CostureiraPlus.entities.Pedido;
@@ -10,6 +11,7 @@ import com.cefet.CostureiraPlus.repositories.PedidoRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 
+@Service
 public class PedidoService {
 
     @Autowired
@@ -20,13 +22,14 @@ public class PedidoService {
         return listaPedidos.stream().map(PedidoDTO::new).toList();
     }
 
-    //Buscar por iD
+    // Buscar por iD
     public PedidoDTO findById(Long id) {
-        Pedido pedido = pedidoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Pedido com ID: " + id + " não encontrado."));
+        Pedido pedido = pedidoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Pedido com ID: " + id + " não encontrado."));
         return new PedidoDTO(pedido);
     }
 
-    //Inserir Pedido
+    // Inserir Pedido
     public PedidoDTO insert(PedidoDTO dto) {
         Pedido pedido = new Pedido();
         pedido.setDescricao(dto.getDescricao());
@@ -41,9 +44,10 @@ public class PedidoService {
         return new PedidoDTO(pedidoSalvo);
     }
 
-    //Atualizar Pedido
+    // Atualizar Pedido
     public PedidoDTO update(Long id, PedidoDTO dto) {
-        Pedido pedido = pedidoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Pedido com ID: " + id + " não encontado."));
+        Pedido pedido = pedidoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Pedido com ID: " + id + " não encontado."));
         pedido.setDescricao(dto.getDescricao());
         pedido.setDataPedido(dto.getData_pedido());
         pedido.setDataEntrega(dto.getData_entrega());
@@ -56,7 +60,7 @@ public class PedidoService {
         return new PedidoDTO(pedidoAtualizado);
     }
 
-    //Remover por iD
+    // Remover por iD
     public void delete(Long id) {
         if (!pedidoRepository.existsById(id)) {
             throw new EntityNotFoundException("Pedido não encontrada com ID: " + id);

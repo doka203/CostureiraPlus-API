@@ -23,14 +23,14 @@ public class LembreteService {
         return listaLembretes.stream().map(LembreteDTO::new).toList();
     }
 
-    //Buscar por ID
+    // Buscar por ID
     public LembreteDTO findById(Long id) {
         Lembrete lembrete = lembreteRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Lembrete com ID: " + id + "não encontrado."));
         return new LembreteDTO(lembrete);
     }
 
-    //Inserir Lembrete
+    // Inserir Lembrete
     public LembreteDTO insert(LembreteDTO dto) {
         Lembrete lembrete = new Lembrete();
         lembrete.setDescricao(dto.getDescricao());
@@ -42,7 +42,7 @@ public class LembreteService {
         return new LembreteDTO(lembreteSalvo);
     }
 
-    //Atualizar Lembrete 
+    // Atualizar Lembrete
     public LembreteDTO update(Long id, LembreteDTO dto) {
         Lembrete lembrete = lembreteRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Lembrete com ID: " + id + " não encontrado."));
@@ -55,7 +55,7 @@ public class LembreteService {
         return new LembreteDTO(lembreteAtualizado);
     }
 
-    //Remover por iD
+    // Remover por iD
     public void delete(Long id) {
         if (!lembreteRepository.existsById(id)) {
             throw new EntityNotFoundException("Lembrete não encontrada com ID: " + id);
