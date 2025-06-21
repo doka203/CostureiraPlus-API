@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.cefet.CostureiraPlus.dto.PagamentoDTO;
 import com.cefet.CostureiraPlus.entities.Pagamento;
+import com.cefet.CostureiraPlus.entities.Pedido;
 import com.cefet.CostureiraPlus.repositories.PagamentoRepository;
+import com.cefet.CostureiraPlus.repositories.PedidoRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -16,6 +18,9 @@ public class PagamentoService {
 
     @Autowired
     private PagamentoRepository pagamentoRepository;
+    @Autowired
+    private PedidoRepository pedidoRepository;
+
 
     // Buscar todos
     public List<PagamentoDTO> findAll() {
@@ -32,23 +37,29 @@ public class PagamentoService {
 
     // Inserir Pagamento
     public PagamentoDTO insert(PagamentoDTO dto) {
+        Pedido pedido = pedidoRepository.findById(dto.getIdPedido())
+                .orElseThrow(() -> new EntityNotFoundException("Pedido com ID: " + dto.getIdPedido()
+                        + " não encontrado"));
         Pagamento pagamento = new Pagamento();
         pagamento.setDataVencimento(dto.getData_vencimento());
         pagamento.setDataPagamento(dto.getData_pagamento());
         pagamento.setValor(dto.getValor());
-        pagamento.setPedido(dto.getPedido());
+        pagamento.setPedido(pedido);
         Pagamento pagamentoSalvo = pagamentoRepository.save(pagamento);
         return new PagamentoDTO(pagamentoSalvo);
     }
 
     // Atualizar Pagamento
     public PagamentoDTO update(Long id, PagamentoDTO dto) {
+        Pedido pedido = pedidoRepository.findById(dto.getIdPedido())
+                .orElseThrow(() -> new EntityNotFoundException("Pedido com ID: " + dto.getIdPedido()
+                        + " não encontrado"));
         Pagamento pagamento = pagamentoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Pagamento com ID: " + id + " não encontrado."));
         pagamento.setDataVencimento(dto.getData_vencimento());
         pagamento.setDataPagamento(dto.getData_pagamento());
         pagamento.setValor(dto.getValor());
-        pagamento.setPedido(dto.getPedido());
+        pagamento.setPedido(pedido);
         Pagamento pagamentoAtualizado = pagamentoRepository.save(pagamento);
         return new PagamentoDTO(pagamentoAtualizado);
     }

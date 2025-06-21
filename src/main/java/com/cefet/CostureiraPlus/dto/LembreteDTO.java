@@ -1,7 +1,6 @@
 package com.cefet.CostureiraPlus.dto;
 
 import com.cefet.CostureiraPlus.entities.Lembrete;
-import com.cefet.CostureiraPlus.entities.Pedido;
 
 public class LembreteDTO {
 
@@ -10,7 +9,8 @@ public class LembreteDTO {
     private String data;
     private String hora;
     private String status;
-    private Pedido pedido;
+    private Long idPedido;
+    private String descricaoPedido;
 
     public LembreteDTO() {
 
@@ -22,7 +22,8 @@ public class LembreteDTO {
         this.data = lembrete.getData();
         this.hora = lembrete.getHora();
         this.status = lembrete.getStatus();
-        this.pedido = lembrete.getPedido();
+        this.idPedido = lembrete.getPedido().getId();
+        this.descricaoPedido = lembrete.getPedido().getDescricao();
     }
 
     public long getId() {
@@ -45,8 +46,13 @@ public class LembreteDTO {
         return status;
     }
 
-    public Pedido getPedido() {
-        return pedido;
+    public Long getIdPedido() {
+        return idPedido;
     }
+
+    public String getDescricaoPedido() {
+        return descricaoPedido;
+    }
+
 
 }

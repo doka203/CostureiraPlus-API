@@ -1,6 +1,5 @@
 package com.cefet.CostureiraPlus.dto;
 
-import com.cefet.CostureiraPlus.entities.Pessoa;
 import com.cefet.CostureiraPlus.entities.Usuario;
 
 public class UsuarioDTO {
@@ -9,7 +8,9 @@ public class UsuarioDTO {
     private String login;
     private String senha;
     private String tipo;
-    private Pessoa pessoa;
+    private String cpf;
+    private String nome;
+
 
     public UsuarioDTO() {
         
@@ -20,7 +21,8 @@ public class UsuarioDTO {
         this.login = usuario.getLogin();
         this.senha = usuario.getSenha();
         this.tipo = usuario.getTipo();
-        this.pessoa = usuario.getPessoa();
+        this.cpf = usuario.getPessoa().getCpf();
+        this.nome = usuario.getPessoa().getNome();
     }
 
     public long getId() {
@@ -39,8 +41,12 @@ public class UsuarioDTO {
         return tipo;
     }
 
-    public Pessoa getPessoa() {
-        return pessoa;
-    }    
+    public String getCpf() {
+        return cpf;
+    }
+
+    public String getNome() {
+        return nome;
+    }
 
 }

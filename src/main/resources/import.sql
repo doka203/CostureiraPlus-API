@@ -28,4 +28,4 @@ INSERT INTO tb_lembrete (descricao, data, hora, status, id_pedido) VALUES ('Ajus
 -- Pagamentos
 INSERT INTO tb_pagamento (data_vencimento, data_pagamento, valor, id_pedido) VALUES ('2025-06-20', '2025-06-20', 300.00, 1);
 INSERT INTO tb_pagamento (data_vencimento, data_pagamento, valor, id_pedido) VALUES ('2025-06-15', '2025-06-15', 120.00, 2);
-INSERT INTO tb_pagamento (data_vencimento, data_pagamento, valor, id_pedido) VALUES ('2025-06-18', NULL, 150.00, 3);
+INSERT INTO tb_pagamento (data_vencimento, data_pagamento, valor, id_pedido) VALUES ('2025-06-18', '2025-05-05', 150.00, 3);

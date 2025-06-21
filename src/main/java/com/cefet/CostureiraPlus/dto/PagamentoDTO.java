@@ -1,7 +1,6 @@
 package com.cefet.CostureiraPlus.dto;
 
 import com.cefet.CostureiraPlus.entities.Pagamento;
-import com.cefet.CostureiraPlus.entities.Pedido;
 
 public class PagamentoDTO {
 
@@ -9,7 +8,9 @@ public class PagamentoDTO {
     private String data_vencimento;
     private String data_pagamento;
     private double valor;
-    private Pedido pedido;
+    private Long idPedido;
+    private String descricaoPedido;
+
 
     public PagamentoDTO() {
 
@@ -20,7 +21,8 @@ public class PagamentoDTO {
         this.data_vencimento = pagamento.getDataVencimento();
         this.data_pagamento = pagamento.getDataPagamento();
         this.valor = pagamento.getValor();
-        this.pedido = pagamento.getPedido();
+        this.idPedido = pagamento.getPedido().getId();
+        this.descricaoPedido = pagamento.getPedido().getDescricao();
     }
 
     public long getId() {
@@ -39,8 +41,13 @@ public class PagamentoDTO {
         return valor;
     }
 
-    public Pedido getPedido() {
-        return pedido;
+    public Long getIdPedido() {
+        return idPedido;
     }
+
+    public String getDescricaoPedido() {
+        return descricaoPedido;
+    }
+
 
 }

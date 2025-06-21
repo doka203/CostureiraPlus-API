@@ -1,6 +1,5 @@
 package com.cefet.CostureiraPlus.dto;
 
-import com.cefet.CostureiraPlus.entities.Usuario;
 import com.cefet.CostureiraPlus.entities.Visita;
 
 public class VisitaDTO {
@@ -9,8 +8,10 @@ public class VisitaDTO {
     private String data;
     private String hora;
     private String descricao;
-    private Usuario usuarioCliente;
-    private Usuario usuarioCostureira;
+    private Long idUsuarioCliente;
+    private String nomeCliente;
+    private Long idUsuarioCostureira;
+    private String nomeCostureira;
 
     public VisitaDTO() {
 
@@ -21,8 +22,10 @@ public class VisitaDTO {
         this.data = visita.getData();
         this.hora = visita.getHora();
         this.descricao = visita.getDescricao();
-        this.usuarioCliente = visita.getUsuarioCliente();
-        this.usuarioCostureira = visita.getUsuarioCostureira();
+        this.idUsuarioCliente = visita.getUsuarioCliente().getId();
+        this.nomeCliente = visita.getUsuarioCliente().getPessoa().getNome();
+        this.idUsuarioCostureira = visita.getUsuarioCostureira().getId();
+        this.nomeCostureira = visita.getUsuarioCostureira().getPessoa().getNome();
     }
 
     public long getId() {
@@ -41,12 +44,20 @@ public class VisitaDTO {
         return descricao;
     }
 
-    public Usuario getUsuarioCliente() {
-        return usuarioCliente;
+    public Long getIdUsuarioCliente() {
+        return idUsuarioCliente;
     }
 
-    public Usuario getUsuarioCostureira() {
-        return usuarioCostureira;
+    public String getNomeCliente() {
+        return nomeCliente;
+    }
+
+    public Long getIdUsuarioCostureira() {
+        return idUsuarioCostureira;
+    }
+
+    public String getNomeCostureira() {
+        return nomeCostureira;
     }
 
 }

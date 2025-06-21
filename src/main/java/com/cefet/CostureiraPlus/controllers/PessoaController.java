@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cefet.CostureiraPlus.dto.PessoaDTO;
+import com.cefet.CostureiraPlus.dto.UsuarioDTO;
 import com.cefet.CostureiraPlus.service.PessoaService;
+import com.cefet.CostureiraPlus.service.UsuarioService;
 
 @RestController
 @RequestMapping("/pessoas")
@@ -23,6 +25,9 @@ public class PessoaController {
 
 	@Autowired
 	private PessoaService pessoaService;
+	@Autowired
+	private UsuarioService usuarioService;
+
 
 	@GetMapping("/{id}")
 	// @Operation(summary = "Buscar pessoa por ID", description = "Retorna os dados
@@ -60,4 +65,9 @@ public class PessoaController {
 		return ResponseEntity.noContent().build();
 	}
 
+	@GetMapping("/{id}/usuarios")
+    public ResponseEntity<List<UsuarioDTO>> listarUsuariosdaPessoa(@PathVariable Long id) {
+        List<UsuarioDTO> usuarios = usuarioService.findUsuariosByPessoaId(id);
+        return ResponseEntity.ok(usuarios);
+    }
 }
