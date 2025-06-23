@@ -13,8 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cefet.CostureiraPlus.dto.PedidoDTO;
 import com.cefet.CostureiraPlus.dto.UsuarioDTO;
+import com.cefet.CostureiraPlus.dto.VisitaDTO;
+import com.cefet.CostureiraPlus.service.PedidoService;
 import com.cefet.CostureiraPlus.service.UsuarioService;
+import com.cefet.CostureiraPlus.service.VisitaService;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -22,6 +26,11 @@ public class UsuarioController {
 
 	@Autowired
 	private UsuarioService usuarioService;
+	@Autowired
+	private PedidoService pedidoService;
+	@Autowired
+	private VisitaService VisitaService;
+
 
 	@GetMapping("/{id}")
 	// @Operation(summary = "Buscar usuario por ID", description = "Retorna os dados
@@ -59,4 +68,15 @@ public class UsuarioController {
 		return ResponseEntity.noContent().build();
 	}
 
+	@GetMapping("/{id}/pedidos")
+	public ResponseEntity<List<PedidoDTO>> listarPedidosdoUsuario(@PathVariable Long id) {
+		List<PedidoDTO> pedidos = pedidoService.findPedidosByClienteId(id);
+		return ResponseEntity.ok(pedidos);
+	}
+	
+	@GetMapping("/{id}/visitas")
+	public ResponseEntity<List<VisitaDTO>> listarVisitasdoUsuario(@PathVariable Long id) {
+		List<VisitaDTO> visitas = VisitaService.findVisitasByClienteId(id);
+		return ResponseEntity.ok(visitas);
+	}
 }

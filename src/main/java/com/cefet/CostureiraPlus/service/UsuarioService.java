@@ -21,7 +21,6 @@ public class UsuarioService {
     @Autowired
     private PessoaRepository pessoaRepository;
 
-
     // Buscar todos
     public List<UsuarioDTO> findAll() {
         List<Usuario> listaUsuarios = usuarioRepository.findAll();
@@ -37,7 +36,8 @@ public class UsuarioService {
 
     // Inserir Usuario
     public UsuarioDTO insert(UsuarioDTO dto) {
-        Pessoa pessoa = pessoaRepository.findByCpf(dto.getCpf());
+        Pessoa pessoa = pessoaRepository.findByCpf(dto.getCpf())
+                .orElseThrow(() -> new EntityNotFoundException("Usuario com CPF: " + dto.getCpf() + " não encontrado."));
         Usuario usuario = new Usuario();
         usuario.setLogin(dto.getLogin());
         usuario.setSenha(dto.getSenha());
@@ -51,10 +51,12 @@ public class UsuarioService {
     public UsuarioDTO update(Long id, UsuarioDTO dto) {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Usuario com ID: " + id + " não encontrado."));
-        Pessoa pessoa = pessoaRepository.findByCpf(dto.getCpf());
+        Pessoa pessoa = pessoaRepository.findByCpf(dto.getCpf())
+                .orElseThrow(() -> new EntityNotFoundException("Usuario com CPF: " + dto.getCpf() + " não encontrado."));
         usuario.setLogin(dto.getLogin());
         usuario.setSenha(dto.getSenha());
-        usuario.setTipo(dto.getTipo());
+        // Usuario nao pode alterar seu tipo
+        // usuario.setTipo(dto.getTipo());
         usuario.setPessoa(pessoa);
         Usuario usuarioAtualizado = usuarioRepository.save(usuario);
         return new UsuarioDTO(usuarioAtualizado);
@@ -68,7 +70,7 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
-    // Lista as pessoas associadas ao usuario identificado pelo ID
+    // Lista os usuarios associadas a pessoaId
     public List<UsuarioDTO> findUsuariosByPessoaId(Long pessoaId) {
         if (!pessoaRepository.existsById(pessoaId)) {
             throw new EntityNotFoundException("Pessoa não encontrada com o ID: " + pessoaId);

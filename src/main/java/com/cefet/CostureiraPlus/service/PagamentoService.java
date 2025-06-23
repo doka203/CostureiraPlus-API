@@ -71,4 +71,14 @@ public class PagamentoService {
         }
         pagamentoRepository.deleteById(id);
     }
+
+    // Lista os pagamentos associados a pedidoId
+    public List<PagamentoDTO> findPagamentosByPedidoId(Long pedidoId){
+        if (!pedidoRepository.existsById(pedidoId)) {
+            throw new EntityNotFoundException("Pedido não encontrada com o ID: " + pedidoId);
+        }
+
+        List<Pagamento> pagamentos = pagamentoRepository.findByPedidoId(pedidoId);
+        return pagamentos.stream().map(PagamentoDTO::new).toList();
+    }
 }

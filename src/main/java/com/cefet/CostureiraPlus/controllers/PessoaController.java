@@ -28,6 +28,13 @@ public class PessoaController {
 	@Autowired
 	private UsuarioService usuarioService;
 
+	@GetMapping
+	// @Operation(summary = "Listar todas as pessoas", description = "Retorna a
+	// lista de todas as pessoas cadastradas.")
+	public ResponseEntity<List<PessoaDTO>> findAll() {
+		List<PessoaDTO> pessoaDTOs = pessoaService.findAll();
+		return ResponseEntity.ok(pessoaDTOs);
+	}
 
 	@GetMapping("/{id}")
 	// @Operation(summary = "Buscar pessoa por ID", description = "Retorna os dados
@@ -37,14 +44,6 @@ public class PessoaController {
 			@PathVariable Long id) {
 		PessoaDTO pessoaDTO = pessoaService.findById(id);
 		return ResponseEntity.ok(pessoaDTO);
-	}
-
-	@GetMapping
-	// @Operation(summary = "Listar todas as pessoas", description = "Retorna a
-	// lista de todas as pessoas cadastradas.")
-	public ResponseEntity<List<PessoaDTO>> findAll() {
-		List<PessoaDTO> pessoaDTOs = pessoaService.findAll();
-		return ResponseEntity.ok(pessoaDTOs);
 	}
 
 	@PostMapping
@@ -66,8 +65,45 @@ public class PessoaController {
 	}
 
 	@GetMapping("/{id}/usuarios")
-    public ResponseEntity<List<UsuarioDTO>> listarUsuariosdaPessoa(@PathVariable Long id) {
-        List<UsuarioDTO> usuarios = usuarioService.findUsuariosByPessoaId(id);
-        return ResponseEntity.ok(usuarios);
-    }
+	public ResponseEntity<List<UsuarioDTO>> listarUsuariosdaPessoa(@PathVariable Long id) {
+		List<UsuarioDTO> usuarios = usuarioService.findUsuariosByPessoaId(id);
+		return ResponseEntity.ok(usuarios);
+	}
+
+	@GetMapping("/email/{email}")
+	public ResponseEntity<PessoaDTO> findByEmail(@PathVariable String email) {
+		PessoaDTO pessoaDTO = pessoaService.findByEmail(email);
+		return ResponseEntity.ok(pessoaDTO);
+	}
+
+	@PutMapping("/email/{email}")
+	public ResponseEntity<PessoaDTO> updateByEmail(@PathVariable String email, @RequestBody PessoaDTO pessoaDTO) {
+		PessoaDTO pessoaAtualizado = pessoaService.updateByEmail(email, pessoaDTO);
+		return ResponseEntity.ok(pessoaAtualizado);
+	}
+
+	@DeleteMapping("/email/{email}")
+	public ResponseEntity<Void> deleteByEmail(@PathVariable String email) {
+		pessoaService.deleteByEmail(email);
+		return ResponseEntity.noContent().build();
+	}
+
+	@GetMapping("/cpf/{cpf}")
+	public ResponseEntity<PessoaDTO> findByCpf(@PathVariable String cpf) {
+		PessoaDTO pessoaDTO = pessoaService.findByCpf(cpf);
+		return ResponseEntity.ok(pessoaDTO);
+	}
+
+	@PutMapping("/cpf/{cpf}")
+	public ResponseEntity<PessoaDTO> updateByCpf(@PathVariable String cpf, @RequestBody PessoaDTO pessoaDTO) {
+		PessoaDTO pessoaAtualizado = pessoaService.updateByCpf(cpf, pessoaDTO);
+		return ResponseEntity.ok(pessoaAtualizado);
+	}
+
+	@DeleteMapping("/cpf/{cpf}")
+	public ResponseEntity<Void> deleteByCpf(@PathVariable String cpf) {
+		pessoaService.deleteByCpf(cpf);
+		return ResponseEntity.noContent().build();
+	}
+
 }

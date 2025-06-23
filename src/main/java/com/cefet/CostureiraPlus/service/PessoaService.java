@@ -42,7 +42,7 @@ public class PessoaService {
         return new PessoaDTO(pessoaSalvo);
     }
 
-    // Atualizar Tipo
+    // Atualizar Pessoa por ID
     public PessoaDTO update(Long id, PessoaDTO dto) {
         Pessoa pessoa = pessoaRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Pessoa com ID: " + id + " não encontrada."));
@@ -58,8 +58,58 @@ public class PessoaService {
     // Remover por ID
     public void delete(Long id) {
         if (!pessoaRepository.existsById(id)) {
-            throw new EntityNotFoundException("Pessoa não encontrada com ID: " + id);
+            throw new EntityNotFoundException("Pessoa com ID: " + id + " não encontrada.");
         }
         pessoaRepository.deleteById(id);
+    }
+
+    // Buscar por email
+    public PessoaDTO findByEmail(String email) {
+        Pessoa pessoa = pessoaRepository.findByEmail(email)
+        .orElseThrow(() -> new EntityNotFoundException("Pessoa com email: " + email + " não encontrado."));
+        return new PessoaDTO(pessoa);
+    }
+
+    // Atualizar Pessoa por email
+    public PessoaDTO updateByEmail(String email, PessoaDTO dto) {
+        Pessoa pessoa = pessoaRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("Pessoa com email: " + email + " não encontrada."));
+        pessoa.setNome(dto.getNome());
+        pessoa.setCpf(dto.getCpf());
+        pessoa.setEndereco(dto.getEndereco());
+        pessoa.setTelefone(dto.getTelefone());
+        pessoa.setEmail(dto.getEmail());
+        Pessoa pessoaAtualizado = pessoaRepository.save(pessoa);
+        return new PessoaDTO(pessoaAtualizado);
+    }
+
+    // Remover por email
+    public void deleteByEmail(String email) {
+        pessoaRepository.deleteByEmail(email);
+    }
+
+    // Buscar por cpf
+    public PessoaDTO findByCpf(String cpf) {
+        Pessoa pessoa = pessoaRepository.findByCpf(cpf)
+        .orElseThrow(() -> new EntityNotFoundException("Pessoa com CPF: " + cpf + " não encontrado."));
+        return new PessoaDTO(pessoa);
+    }
+
+    // Atualizar Pessoa por cpf
+    public PessoaDTO updateByCpf(String cpf, PessoaDTO dto) {
+        Pessoa pessoa = pessoaRepository.findByCpf(cpf)
+                .orElseThrow(() -> new EntityNotFoundException("Pessoa com CPF: " + cpf + " não encontrada."));
+        pessoa.setNome(dto.getNome());
+        pessoa.setCpf(dto.getCpf());
+        pessoa.setEndereco(dto.getEndereco());
+        pessoa.setTelefone(dto.getTelefone());
+        pessoa.setEmail(dto.getEmail());
+        Pessoa pessoaAtualizado = pessoaRepository.save(pessoa);
+        return new PessoaDTO(pessoaAtualizado);
+    }
+
+    // Remover por cpf
+    public void deleteByCpf(String cpf) {
+        pessoaRepository.deleteByCpf(cpf);
     }
 }

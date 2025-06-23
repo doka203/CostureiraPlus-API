@@ -11,7 +11,6 @@ public class UsuarioDTO {
     private String cpf;
     private String nome;
 
-
     public UsuarioDTO() {
         
     }

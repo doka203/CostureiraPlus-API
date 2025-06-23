@@ -13,7 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cefet.CostureiraPlus.dto.LembreteDTO;
+import com.cefet.CostureiraPlus.dto.PagamentoDTO;
 import com.cefet.CostureiraPlus.dto.PedidoDTO;
+import com.cefet.CostureiraPlus.service.LembreteService;
+import com.cefet.CostureiraPlus.service.PagamentoService;
 import com.cefet.CostureiraPlus.service.PedidoService;
 
 @RestController
@@ -23,6 +27,11 @@ public class PedidoController {
 
     @Autowired
     private PedidoService pedidoService;
+    @Autowired
+    private LembreteService lembreteService;
+    @Autowired
+    private PagamentoService pagamentoService;
+
 
     @GetMapping("/{id}")
     // @Operation(summary = "Buscar pedido por ID", description = "Retorna os dados
@@ -58,6 +67,18 @@ public class PedidoController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         pedidoService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/lembretes")
+    public ResponseEntity<List<LembreteDTO>> listarLembretesdoPedido(@PathVariable Long id) {
+        List<LembreteDTO> lembretes = lembreteService.findLembretesByPedidoId(id);
+        return ResponseEntity.ok(lembretes);
+    }
+
+    @GetMapping("/{id}/pagamentos")
+    public ResponseEntity<List<PagamentoDTO>> listarPagamentosdoPedido(@PathVariable Long id) {
+        List<PagamentoDTO> pagamentos = pagamentoService.findPagamentosByPedidoId(id);
+        return ResponseEntity.ok(pagamentos);
     }
 
 }

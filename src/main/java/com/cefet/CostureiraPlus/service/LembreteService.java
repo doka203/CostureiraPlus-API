@@ -73,4 +73,14 @@ public class LembreteService {
         }
         lembreteRepository.deleteById(id);
     }
+
+    // Lista os lembretes associados a pedidoId
+    public List<LembreteDTO> findLembretesByPedidoId(Long pedidoId){
+        if (!pedidoRepository.existsById(pedidoId)) {
+            throw new EntityNotFoundException("Pedido não encontrada com o ID: " + pedidoId);
+        }
+
+        List<Lembrete> lembretes = lembreteRepository.findByPedidoId(pedidoId);
+        return lembretes.stream().map(LembreteDTO::new).toList();
+    }
 }

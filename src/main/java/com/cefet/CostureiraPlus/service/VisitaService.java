@@ -79,4 +79,12 @@ public class VisitaService {
         visitaRepository.deleteById(id);
     }
 
+    public List<VisitaDTO> findVisitasByClienteId(Long usuarioId) {
+        if (!usuarioRepository.existsById(usuarioId)) {
+            throw new EntityNotFoundException("Usuário não encontrado com o ID: " + usuarioId);
+        }
+
+        List<Visita> visitas = visitaRepository.findByUsuarioClienteId(usuarioId);
+        return visitas.stream().map(VisitaDTO::new).toList();
+    }
 }
