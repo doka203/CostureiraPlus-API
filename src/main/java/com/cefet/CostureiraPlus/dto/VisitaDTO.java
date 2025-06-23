@@ -1,12 +1,15 @@
 package com.cefet.CostureiraPlus.dto;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import com.cefet.CostureiraPlus.entities.Visita;
 
 public class VisitaDTO {
 
     private long id;
-    private String data;
-    private String hora;
+    private LocalDate data;
+    private LocalTime hora;
     private String descricao;
     private Long idUsuarioCliente;
     private String nomeCliente;
@@ -32,11 +35,11 @@ public class VisitaDTO {
         return id;
     }
 
-    public String getData() {
+    public LocalDate getData() {
         return data;
     }
 
-    public String getHora() {
+    public LocalTime getHora() {
         return hora;
     }
 

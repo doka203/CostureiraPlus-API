@@ -1,5 +1,7 @@
 package com.cefet.CostureiraPlus.entities;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,11 +21,13 @@ public class Pedido {
     @Column(nullable = false)
     private String descricao;
     @Column(nullable = false)
-    private String data_pedido;
+    private LocalDate data_pedido;
     @Column(nullable = false)
-    private String data_entrega;
+    private LocalDate data_entrega;
     @Column(nullable = false)
     private String status;
+    @Column(nullable = false)
+    private double valor;
     @Column(nullable = false)
     private String forma_pagamento;
     @Column(nullable = false)
@@ -39,7 +43,7 @@ public class Pedido {
 
     }
 
-    public Pedido(long id, String descricao, String dataPedido, String dataEntrega, String status,
+    public Pedido(long id, String descricao, LocalDate dataPedido, LocalDate dataEntrega, String status,
                   String formaPagamento, int numeroParcelas, Usuario usuarioCliente, Usuario usuarioCostureira) {
         this.id = id;
         this.descricao = descricao;
@@ -68,19 +72,19 @@ public class Pedido {
         this.descricao = descricao;
     }
 
-    public String getDataPedido() {
+    public LocalDate getDataPedido() {
         return data_pedido;
     }
 
-    public void setDataPedido(String data_pedido) {
+    public void setDataPedido(LocalDate data_pedido) {
         this.data_pedido = data_pedido;
     }
 
-    public String getDataEntrega() {
+    public LocalDate getDataEntrega() {
         return data_entrega;
     }
 
-    public void setDataEntrega(String data_entrega) {
+    public void setDataEntrega(LocalDate data_entrega) {
         this.data_entrega = data_entrega;
     }
 
@@ -90,6 +94,14 @@ public class Pedido {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public double getValor() {
+        return valor;
+    }
+
+    public void setValor(double valor) {
+        this.valor = valor;
     }
 
     public String getFormaPagamento() {

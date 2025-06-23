@@ -87,11 +87,11 @@ public class PedidoService {
 
     // Listar pedidos associados a usuarioId
     public List<PedidoDTO> findPedidosByClienteId(Long usuarioId) {
-    if (!usuarioRepository.existsById(usuarioId)) {
-        throw new EntityNotFoundException("Usuário não encontrado com o ID: " + usuarioId);
-    }
+        if (!usuarioRepository.existsById(usuarioId)) {
+            throw new EntityNotFoundException("Usuário não encontrado com o ID: " + usuarioId);
+        }
 
-    List<Pedido> pedidos = pedidoRepository.findByUsuarioClienteId(usuarioId);
-    return pedidos.stream().map(PedidoDTO::new).toList();
-}
+        List<Pedido> pedidos = pedidoRepository.findByUsuarioClienteId(usuarioId);
+        return pedidos.stream().map(PedidoDTO::new).toList();
+    }
 }

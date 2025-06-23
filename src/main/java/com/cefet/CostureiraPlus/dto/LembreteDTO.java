@@ -1,13 +1,16 @@
 package com.cefet.CostureiraPlus.dto;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import com.cefet.CostureiraPlus.entities.Lembrete;
 
 public class LembreteDTO {
 
     private long id;
     private String descricao;
-    private String data;
-    private String hora;
+    private LocalDate data;
+    private LocalTime hora;
     private String status;
     private Long idPedido;
     private String descricaoPedido;
@@ -34,11 +37,11 @@ public class LembreteDTO {
         return descricao;
     }
 
-    public String getData() {
+    public LocalDate getData() {
         return data;
     }
 
-    public String getHora() {
+    public LocalTime getHora() {
         return hora;
     }
 

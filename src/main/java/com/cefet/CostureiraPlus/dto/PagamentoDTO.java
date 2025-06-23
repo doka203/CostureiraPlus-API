@@ -1,12 +1,14 @@
 package com.cefet.CostureiraPlus.dto;
 
+import java.time.LocalDate;
+
 import com.cefet.CostureiraPlus.entities.Pagamento;
 
 public class PagamentoDTO {
 
     private long id;
-    private String data_vencimento;
-    private String data_pagamento;
+    private LocalDate data_vencimento;
+    private LocalDate data_pagamento;
     private double valor;
     private Long idPedido;
     private String descricaoPedido;
@@ -29,11 +31,11 @@ public class PagamentoDTO {
         return id;
     }
 
-    public String getData_vencimento() {
+    public LocalDate getData_vencimento() {
         return data_vencimento;
     }
 
-    public String getData_pagamento() {
+    public LocalDate getData_pagamento() {
         return data_pagamento;
     }
 

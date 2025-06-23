@@ -1,5 +1,8 @@
 package com.cefet.CostureiraPlus.entities;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,9 +22,9 @@ public class Lembrete {
     @Column(nullable = false)
     private String descricao;
     @Column(nullable = false)
-    private String data;
+    private LocalDate data;
     @Column(nullable = false)
-    private String hora;
+    private LocalTime hora;
     @Column(nullable = false)
     private String status;
     @ManyToOne
@@ -32,7 +35,7 @@ public class Lembrete {
 
     }
 
-    public Lembrete(long id, String descricao, String data, String hora, String status, Pedido pedido) {
+    public Lembrete(long id, String descricao, LocalDate data, LocalTime hora, String status, Pedido pedido) {
         this.id = id;
         this.descricao = descricao;
         this.data = data;
@@ -57,19 +60,19 @@ public class Lembrete {
         this.descricao = descricao;
     }
 
-    public String getData() {
+    public LocalDate getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
 
-    public String getHora() {
+    public LocalTime getHora() {
         return hora;
     }
 
-    public void setHora(String hora) {
+    public void setHora(LocalTime hora) {
         this.hora = hora;
     }
 

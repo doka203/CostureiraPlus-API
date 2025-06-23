@@ -1,5 +1,8 @@
 package com.cefet.CostureiraPlus.entities;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,9 +20,9 @@ public class Visita {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(nullable = false)
-    private String data;
+    private LocalDate data;
     @Column(nullable = false)
-    private String hora;
+    private LocalTime hora;
     @Column(nullable = false)
     private String descricao;
 
@@ -35,7 +38,7 @@ public class Visita {
 
     }
 
-    public Visita(long id, String data, String hora, String descricao, Usuario usuarioCliente,
+    public Visita(long id, LocalDate data, LocalTime hora, String descricao, Usuario usuarioCliente,
             Usuario usuarioCostureira) {
         this.id = id;
         this.data = data;
@@ -53,19 +56,19 @@ public class Visita {
         this.id = id;
     }
 
-    public String getData() {
+    public LocalDate getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
 
-    public String getHora() {
+    public LocalTime getHora() {
         return hora;
     }
 
-    public void setHora(String hora) {
+    public void setHora(LocalTime hora) {
         this.hora = hora;
     }
 

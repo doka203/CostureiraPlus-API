@@ -1,5 +1,7 @@
 package com.cefet.CostureiraPlus.entities;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,9 +19,9 @@ public class Pagamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(nullable = false)
-    private String data_vencimento;
-    @Column(nullable = false)
-    private String data_pagamento;
+    private LocalDate data_vencimento;
+    @Column(nullable = true)
+    private LocalDate data_pagamento;
     @Column(nullable = false)
     private double valor;
     @ManyToOne
@@ -30,7 +32,7 @@ public class Pagamento {
 
     }
 
-    public Pagamento(long id, String data_vencimento, String data_pagamento, double valor, Pedido pedido) {
+    public Pagamento(long id, LocalDate data_vencimento, LocalDate data_pagamento, double valor, Pedido pedido) {
         this.id = id;
         this.data_vencimento = data_vencimento;
         this.data_pagamento = data_pagamento;
@@ -46,19 +48,19 @@ public class Pagamento {
         this.id = id;
     }
 
-    public String getDataVencimento() {
+    public LocalDate getDataVencimento() {
         return data_vencimento;
     }
 
-    public void setDataVencimento(String data_vencimento) {
+    public void setDataVencimento(LocalDate data_vencimento) {
         this.data_vencimento = data_vencimento;
     }
 
-    public String getDataPagamento() {
+    public LocalDate getDataPagamento() {
         return data_pagamento;
     }
 
-    public void setDataPagamento(String data_pagamento) {
+    public void setDataPagamento(LocalDate data_pagamento) {
         this.data_pagamento = data_pagamento;
     }
 
