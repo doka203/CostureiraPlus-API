@@ -5,6 +5,7 @@ import java.math.RoundingMode;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -117,9 +118,15 @@ public class PedidoService {
     }
 
     // Remover por iD
+    @Transactional
     public void delete(Long id) {
         if (!pedidoRepository.existsById(id)) {
-            throw new EntityNotFoundException("Pedido não encontrada com ID: " + id);
+            throw new EntityNotFoundException("Pedido com ID: " + id + " não encontrado.");
+        }
+        List<Pagamento> pagamentos = pagamentoRepository.findByPedidoId(id);
+        if (!pagamentos.isEmpty()) {
+            throw new DataIntegrityViolationException("Não é possível excluir o pedido com ID " + id
+                    + " pois ele possui registros financeiros associados. Considere cancelar o pedido.");
         }
         pedidoRepository.deleteById(id);
     }
@@ -132,5 +139,14 @@ public class PedidoService {
 
         List<Pedido> pedidos = pedidoRepository.findByUsuarioClienteId(usuarioId);
         return pedidos.stream().map(PedidoDTO::new).toList();
+    }
+
+    // Cancela um pedido alterando seu status para "CANCELADO"
+    @Transactional
+    public void cancelar(Long id) {
+        Pedido pedido = pedidoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Pedido com ID: " + id + " não encontrado."));
+        pedido.setStatus("CANCELADO");
+        pedidoRepository.save(pedido);
     }
 }

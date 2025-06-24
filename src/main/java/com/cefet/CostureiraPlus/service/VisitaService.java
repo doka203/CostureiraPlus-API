@@ -1,5 +1,6 @@
 package com.cefet.CostureiraPlus.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,6 +86,18 @@ public class VisitaService {
         }
 
         List<Visita> visitas = visitaRepository.findByUsuarioClienteId(usuarioId);
+        return visitas.stream().map(VisitaDTO::new).toList();
+    }
+
+    public List<VisitaDTO> findByFiltros(LocalDate dataInicio, LocalDate dataFim, Long clienteId) {
+        if (dataInicio == null || dataFim == null) {
+            throw new IllegalArgumentException("As datas de início e fim são obrigatórias.");
+        }
+        if (dataInicio.isAfter(dataFim)) {
+            throw new IllegalArgumentException("A data de início não pode ser posterior à data de fim.");
+        }
+
+        List<Visita> visitas = visitaRepository.findVisitasComFiltros(dataInicio, dataFim, clienteId);
         return visitas.stream().map(VisitaDTO::new).toList();
     }
 }

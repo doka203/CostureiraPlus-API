@@ -81,4 +81,9 @@ public class PedidoController {
         return ResponseEntity.ok(pagamentos);
     }
 
+    @PutMapping("/{id}/cancelar")
+    public ResponseEntity<Void> cancelarPedido(@PathVariable Long id) {
+        pedidoService.cancelar(id);
+        return ResponseEntity.ok().build();
+    }
 }

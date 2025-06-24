@@ -1,8 +1,10 @@
 package com.cefet.CostureiraPlus.controllers;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cefet.CostureiraPlus.dto.VisitaDTO;
@@ -57,5 +60,15 @@ public class VisitaController {
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		visitaService.delete(id);
 		return ResponseEntity.noContent().build();
+	}
+
+	@GetMapping("/agenda")
+	public ResponseEntity<List<VisitaDTO>> getAgendaPorPeriodo(
+			@RequestParam("inicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicio,
+			@RequestParam("fim") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFim,
+			@RequestParam(value = "clienteId", required = false) Long clienteId) {
+
+		List<VisitaDTO> visitas = visitaService.findByFiltros(dataInicio, dataFim, clienteId);
+		return ResponseEntity.ok(visitas);
 	}
 }
