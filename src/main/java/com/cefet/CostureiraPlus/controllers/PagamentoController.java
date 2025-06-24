@@ -1,5 +1,6 @@
 package com.cefet.CostureiraPlus.controllers;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,13 @@ public class PagamentoController {
     @PutMapping("/{id}")
     public ResponseEntity<PagamentoDTO> update(@PathVariable Long id, @RequestBody PagamentoDTO pagamentoDTO) {
         PagamentoDTO pagamentoAtualizado = pagamentoService.update(id, pagamentoDTO);
+        return ResponseEntity.ok(pagamentoAtualizado);
+    }
+
+    @PutMapping("/{id}/registrar-pagamento")
+    public ResponseEntity<PagamentoDTO> registrarPagamento(@PathVariable Long id,
+            @RequestBody LocalDate dataPagamento) {
+        PagamentoDTO pagamentoAtualizado = pagamentoService.registrarPagamento(id, dataPagamento);
         return ResponseEntity.ok(pagamentoAtualizado);
     }
 

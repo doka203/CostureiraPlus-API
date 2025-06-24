@@ -12,19 +12,20 @@ public class PagamentoDTO {
     private double valor;
     private Long idPedido;
     private String descricaoPedido;
-
+    private LocalDate data_pedido;
 
     public PagamentoDTO() {
 
     }
 
-    public PagamentoDTO(Pagamento pagamento){
+    public PagamentoDTO(Pagamento pagamento) {
         this.id = pagamento.getId();
         this.data_vencimento = pagamento.getDataVencimento();
         this.data_pagamento = pagamento.getDataPagamento();
         this.valor = pagamento.getValor();
         this.idPedido = pagamento.getPedido().getId();
         this.descricaoPedido = pagamento.getPedido().getDescricao();
+        this.data_pedido = pagamento.getPedido().getDataPedido();
     }
 
     public long getId() {
@@ -51,5 +52,8 @@ public class PagamentoDTO {
         return descricaoPedido;
     }
 
+    public LocalDate getData_pedido() {
+        return data_pedido;
+    }
 
 }
