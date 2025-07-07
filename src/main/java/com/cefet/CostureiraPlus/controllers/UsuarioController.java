@@ -3,6 +3,7 @@ package com.cefet.CostureiraPlus.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cefet.CostureiraPlus.dto.PedidoDTO;
 import com.cefet.CostureiraPlus.dto.UsuarioDTO;
 import com.cefet.CostureiraPlus.dto.VisitaDTO;
+import com.cefet.CostureiraPlus.entities.Usuario;
 import com.cefet.CostureiraPlus.service.PedidoService;
 import com.cefet.CostureiraPlus.service.UsuarioService;
 import com.cefet.CostureiraPlus.service.VisitaService;
@@ -23,6 +25,8 @@ import com.cefet.CostureiraPlus.service.VisitaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/usuarios")
@@ -36,6 +40,27 @@ public class UsuarioController {
 	@Autowired
 	private VisitaService VisitaService;
 
+	public UsuarioController(UsuarioService usuarioService){
+		this.usuarioService = usuarioService;
+	}
+
+	@PostMapping
+	@Operation(summary = "Criar usuário", description = "Cria um novo usuário.")
+	public ResponseEntity<?> criarUsuario(@RequestBody Usuario usuario) {
+		try{
+			Usuario novoUsuario = usuarioService.criaUsuario(usuario);
+			return ResponseEntity.status(HttpStatus.CREATED).body(novoUsuario);
+		} catch(IllegalArgumentException e){
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
+	
+	@GetMapping
+	@Operation(summary = "Listar todos os usuários", description = "Retorna a lista de todos os usuários cadastrados.")
+	public List<Usuario> listarUsuarios() {
+		return usuarioService.listarUsuarios();
+	}
+	
 
 	@GetMapping("/{id}")
 	@Operation(summary = "Buscar usuário por ID", description = "Retorna os dados de um usuário específico.")
@@ -46,19 +71,19 @@ public class UsuarioController {
 		return ResponseEntity.ok(usuarioDTO);
 	}
 
-	@GetMapping
-	@Operation(summary = "Listar todos os usuários", description = "Retorna a lista de todos os usuários cadastrados.")
-	public ResponseEntity<List<UsuarioDTO>> findAll() {
-		List<UsuarioDTO> usuarioDTOs = usuarioService.findAll();
-		return ResponseEntity.ok(usuarioDTOs);
-	}
+	// @GetMapping
+	// @Operation(summary = "Listar todos os usuários", description = "Retorna a lista de todos os usuários cadastrados.")
+	// public ResponseEntity<List<UsuarioDTO>> findAll() {
+	// 	List<UsuarioDTO> usuarioDTOs = usuarioService.findAll();
+	// 	return ResponseEntity.ok(usuarioDTOs);
+	// }
 
-	@PostMapping
-	@Operation(summary = "Criar usuário", description = "Cria um novo usuário.")
-	public ResponseEntity<UsuarioDTO> create(@RequestBody UsuarioDTO usuarioDTO) {
-		UsuarioDTO usuarioNovo = usuarioService.insert(usuarioDTO);
-		return ResponseEntity.status(201).body(usuarioNovo);
-	}
+	// @PostMapping
+	// @Operation(summary = "Criar usuário", description = "Cria um novo usuário.")
+	// public ResponseEntity<UsuarioDTO> create(@RequestBody UsuarioDTO usuarioDTO) {
+	// 	UsuarioDTO usuarioNovo = usuarioService.insert(usuarioDTO);
+	// 	return ResponseEntity.status(201).body(usuarioNovo);
+	// }
 
 	@PutMapping("/{id}")
 	@Operation(summary = "Atualizar usuário", description = "Atualiza usuário cadastrado.")

@@ -3,6 +3,7 @@ package com.cefet.CostureiraPlus.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.cefet.CostureiraPlus.dto.UsuarioDTO;
@@ -20,6 +21,24 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
     @Autowired
     private PessoaRepository pessoaRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder){
+        this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    public Usuario criaUsuario(Usuario usuario){
+        if (usuarioRepository.existsByLogin(usuario.getLogin())) {
+            throw new IllegalArgumentException("Login já existe.");
+        }
+        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+        return usuarioRepository.save(usuario);
+    }
+
+    public List<Usuario> listarUsuarios(){
+        return usuarioRepository.findAll();
+    }
 
     // Buscar todos
     public List<UsuarioDTO> findAll() {

@@ -2,6 +2,8 @@ package com.cefet.CostureiraPlus.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,17 +27,21 @@ public class Usuario {
     @ManyToOne
     @JoinColumn(name = "id_pessoa")
     private Pessoa pessoa;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "nivel_acesso", nullable = false)
+    private NivelAcesso nivelAcesso;
 
     public Usuario() {
 
     }
 
-    public Usuario(long id, String login, String senha, String tipo, Pessoa pessoa) {
+    public Usuario(long id, String login, String senha, String tipo, Pessoa pessoa, NivelAcesso nivelAcesso) {
         this.id = id;
         this.login = login;
         this.senha = senha;
         this.tipo = tipo;
         this.pessoa = pessoa;
+        this.nivelAcesso = nivelAcesso;
     }
 
     public long getId() {
@@ -88,6 +94,15 @@ public class Usuario {
     public boolean equals(Object obj) {
         // TODO Auto-generated method stub
         return super.equals(obj);
+    }
+
+    public NivelAcesso getNivelAcesso() {
+        // TODO Auto-generated method stub
+        return nivelAcesso;
+    }
+
+    public void setNivelAcesso(NivelAcesso nivelAcesso){
+        this.nivelAcesso = nivelAcesso;
     }
 
 }
