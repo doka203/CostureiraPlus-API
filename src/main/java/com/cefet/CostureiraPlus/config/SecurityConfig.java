@@ -13,6 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
 import com.cefet.CostureiraPlus.security.JwtAuthenticationFilter;
 import com.cefet.CostureiraPlus.service.UsuarioDetailsService;
 
@@ -31,11 +34,19 @@ public class SecurityConfig {
         http
                 // Desabilita verificação CSRF para permitir POST com token JWT
                 .csrf(csrf -> csrf.disable())
+                .cors(cors -> {})
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/h2-console/**").permitAll() // Acesso ao H2 Console
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll() // Acesso
                                                                                                               // ao
-                                                                                          
+                        // Modificações feitas para o CRUDE de Pessoas
+                        .requestMatchers(HttpMethod.GET,"/pessoas/{id}").permitAll()
+                        .requestMatchers(HttpMethod.DELETE,"/pessoas/**").permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/pessoas").permitAll() 
+                        .requestMatchers(HttpMethod.PUT,"/pessoas/{id}").permitAll()                                                                                      
+                        .requestMatchers(HttpMethod.GET, "/pessoas").permitAll()
+                        //         
                         .requestMatchers(HttpMethod.GET, "/usuarios").permitAll()                   // Swagger                                                        // UI
                         .requestMatchers(HttpMethod.POST, "/usuarios").permitAll() // Permitir criação de usuário
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll() // Permitir endpoint de login
@@ -96,4 +107,18 @@ public class SecurityConfig {
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
+
+    @Bean
+	  public WebMvcConfigurer corsConfigurer() {
+	    return new WebMvcConfigurer() {
+	      @Override
+	      public void addCorsMappings(CorsRegistry registry) {
+	        registry.addMapping("/**")
+	          .allowedOrigins("http://localhost:4200", "https://ds-guia12.netlify.app")
+	          .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+	          .allowedHeaders("*")
+	          .allowCredentials(true);
+	      }
+	    };
+	  }    
 }
