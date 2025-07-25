@@ -75,11 +75,23 @@ public class PagamentoService {
     public PagamentoDTO registrarPagamento(Long id, LocalDate dataPagamento) {
         Pagamento pagamento = pagamentoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Pagamento com ID: " + id + " não encontrado."));
+        
         if (dataPagamento == null) {
             throw new IllegalArgumentException("A data de pagamento não pode ser nula.");
         }
         pagamento.setDataPagamento(dataPagamento);
         Pagamento pagamentoSalvo = pagamentoRepository.save(pagamento);
+
+        Pedido pedido = pagamentoSalvo.getPedido();
+        List<Pagamento> todasAsParcelas = pagamentoRepository.findByPedidoId(pedido.getId());
+
+        boolean todasPagas = todasAsParcelas.stream().allMatch(p -> p.getDataPagamento() != null);
+
+        if (todasPagas) {
+            pedido.setStatus("FINALIZADO");
+            pedidoRepository.save(pedido);
+        }
+
         return new PagamentoDTO(pagamentoSalvo);
     }
 

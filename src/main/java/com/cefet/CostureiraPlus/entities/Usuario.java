@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,6 +31,9 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     @Column(name = "nivel_acesso", nullable = false)
     private NivelAcesso nivelAcesso;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "criado_por_id")
+    private Usuario criadoPor;
 
     public Usuario() {
 
@@ -103,6 +107,14 @@ public class Usuario {
 
     public void setNivelAcesso(NivelAcesso nivelAcesso){
         this.nivelAcesso = nivelAcesso;
+    }
+
+    public Usuario getCriadoPor() {
+        return criadoPor;
+    }
+
+    public void setCriadoPor(Usuario criadoPor) {
+        this.criadoPor = criadoPor;
     }
 
 }

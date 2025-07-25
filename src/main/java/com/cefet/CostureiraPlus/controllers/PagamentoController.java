@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cefet.CostureiraPlus.dto.PagamentoDTO;
+import com.cefet.CostureiraPlus.dto.DataPagamentoDTO;
 import com.cefet.CostureiraPlus.service.PagamentoService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -61,9 +62,11 @@ public class PagamentoController {
 
     @PutMapping("/{id}/registrar-pagamento")
     @Operation(summary = "Registrar pagamento", description = "Registra um pagamento recorrente.")
-    public ResponseEntity<PagamentoDTO> registrarPagamento(@PathVariable Long id,
-            @RequestBody LocalDate dataPagamento) {
-        PagamentoDTO pagamentoAtualizado = pagamentoService.registrarPagamento(id, dataPagamento);
+    public ResponseEntity<PagamentoDTO> registrarPagamento(
+            @PathVariable Long id,
+            @RequestBody DataPagamentoDTO dataPagamentoDTO) {
+
+        PagamentoDTO pagamentoAtualizado = pagamentoService.registrarPagamento(id, dataPagamentoDTO.getDataPagamento());
         return ResponseEntity.ok(pagamentoAtualizado);
     }
 

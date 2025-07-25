@@ -3,6 +3,7 @@ package com.cefet.CostureiraPlus.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cefet.CostureiraPlus.dto.PessoaDTO;
 import com.cefet.CostureiraPlus.dto.UsuarioDTO;
+import com.cefet.CostureiraPlus.entities.Usuario;
 import com.cefet.CostureiraPlus.security.UsuarioDetails;
 import com.cefet.CostureiraPlus.service.PessoaService;
 import com.cefet.CostureiraPlus.service.UsuarioService;
@@ -130,5 +132,16 @@ public class PessoaController {
 
         List<PessoaDTO> clientes = pessoaService.findClientesDaCostureira(costureiraId);
         return ResponseEntity.ok(clientes);
+    }
+
+	@PostMapping("/meus-clientes")
+    @Operation(summary = "Adiciona um novo cliente para a costureira logada")
+    public ResponseEntity<PessoaDTO> addMeuCliente(@RequestBody PessoaDTO dto) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UsuarioDetails usuarioDetails = (UsuarioDetails) authentication.getPrincipal();
+        Usuario costureira = usuarioDetails.getUsuario();
+
+        PessoaDTO novoCliente = pessoaService.insert(dto, costureira);
+        return ResponseEntity.status(HttpStatus.CREATED).body(novoCliente);
     }
 }

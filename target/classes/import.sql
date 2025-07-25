@@ -5,10 +5,10 @@ INSERT INTO tb_pessoa (nome, cpf, endereco, telefone, email) VALUES ('Ana Client
 INSERT INTO tb_pessoa (nome, cpf, endereco, telefone, email) VALUES ('Carlos Cliente', '444.444.444-44', 'Travessa dos Tecidos, 400', '(31) 96666-0004', 'carlos@cliente.com');
 
 -- Usuários
-INSERT INTO tb_usuario (login, senha, tipo, id_pessoa, nivel_acesso) VALUES ('costureira', '$2a$10$ZQDZDXqV/LKQTq13NKJ2aeUmrxV787/U1BSEfXS.pGPu0Sd9CgYX6', 'COSTUREIRA', 1, 'ADMIN');
-INSERT INTO tb_usuario (login, senha, tipo, id_pessoa, nivel_acesso) VALUES ('joao', '$2a$10$ZQDZDXqV/LKQTq13NKJ2aeUmrxV787/U1BSEfXS.pGPu0Sd9CgYX6', 'CLIENTE', 2, 'ADMIN');
-INSERT INTO tb_usuario (login, senha, tipo, id_pessoa, nivel_acesso) VALUES ('ana', '$2a$10$ZQDZDXqV/LKQTq13NKJ2aeUmrxV787/U1BSEfXS.pGPu0Sd9CgYX6', 'CLIENTE', 3, 'ADMIN');
-INSERT INTO tb_usuario (login, senha, tipo, id_pessoa, nivel_acesso) VALUES ('carlos', '$2a$10$ZQDZDXqV/LKQTq13NKJ2aeUmrxV787/U1BSEfXS.pGPu0Sd9CgYX6', 'CLIENTE', 4, 'ADMIN');
+INSERT INTO tb_usuario (login, senha, tipo, id_pessoa, nivel_acesso, criado_por_id) VALUES ('costureira', '$2a$10$ZQDZDXqV/LKQTq13NKJ2aeUmrxV787/U1BSEfXS.pGPu0Sd9CgYX6', 'COSTUREIRA', 1, 'ADMIN', NULL);
+INSERT INTO tb_usuario (login, senha, tipo, id_pessoa, nivel_acesso, criado_por_id) VALUES ('joao', '$2a$10$ZQDZDXqV/LKQTq13NKJ2aeUmrxV787/U1BSEfXS.pGPu0Sd9CgYX6', 'CLIENTE', 2, 'ADMIN', 1);
+INSERT INTO tb_usuario (login, senha, tipo, id_pessoa, nivel_acesso, criado_por_id) VALUES ('ana', '$2a$10$ZQDZDXqV/LKQTq13NKJ2aeUmrxV787/U1BSEfXS.pGPu0Sd9CgYX6', 'CLIENTE', 3, 'ADMIN', 1);
+INSERT INTO tb_usuario (login, senha, tipo, id_pessoa, nivel_acesso, criado_por_id) VALUES ('carlos', '$2a$10$ZQDZDXqV/LKQTq13NKJ2aeUmrxV787/U1BSEfXS.pGPu0Sd9CgYX6', 'CLIENTE', 4, 'ADMIN', 1);
 
 -- Pedidos
 INSERT INTO tb_pedido (descricao, data_pedido, data_entrega, status, forma_pagamento, numero_parcelas, valor, id_usuario_cliente, id_usuario_costureira) VALUES ('Vestido de festa', '2025-06-01', '2025-06-20', 'EM ANDAMENTO', 'CARTAO', 3, 300.00, 2, 1);

@@ -70,6 +70,29 @@ public class PessoaService {
         return new PessoaDTO(pessoaSalva);
     }
 
+    @Transactional
+public PessoaDTO insert(PessoaDTO dto, Usuario costureira) {
+    Pessoa pessoa = new Pessoa();
+    pessoa.setNome(dto.getNome());
+    pessoa.setCpf(dto.getCpf());
+    pessoa.setEndereco(dto.getEndereco());
+    pessoa.setTelefone(dto.getTelefone());
+    pessoa.setEmail(dto.getEmail());
+    Pessoa pessoaSalva = pessoaRepository.save(pessoa);
+
+    Usuario novoUsuario = new Usuario();
+    novoUsuario.setPessoa(pessoaSalva);
+    novoUsuario.setTipo("CLIENTE");
+    novoUsuario.setLogin(pessoaSalva.getEmail());
+    novoUsuario.setSenha(passwordEncoder.encode("123456"));
+    novoUsuario.setNivelAcesso(NivelAcesso.GESTOR);
+    
+    novoUsuario.setCriadoPor(costureira);
+
+    usuarioRepository.save(novoUsuario);
+    return new PessoaDTO(pessoaSalva);
+}
+
     // Atualizar Pessoa por ID
     public PessoaDTO update(Long id, PessoaDTO dto) {
         Pessoa pessoa = pessoaRepository.findById(id)
@@ -142,12 +165,9 @@ public class PessoaService {
     }
 
     public List<PessoaDTO> findClientesDaCostureira(Long costureiraId) {
-        List<Pedido> pedidos = pedidoRepository.findByUsuarioCostureiraId(costureiraId);
-
-        return pedidos.stream()
-                      .map(pedido -> pedido.getUsuarioCliente().getPessoa())
-                      .distinct()
-                      .map(PessoaDTO::new) 
-                      .collect(Collectors.toList());
-    }
+    return usuarioRepository.findByCriadoPorId(costureiraId)
+                            .stream()
+                            .map(usuario -> new PessoaDTO(usuario.getPessoa()))
+                            .collect(Collectors.toList());
+}
 }
