@@ -1,6 +1,7 @@
 package com.cefet.CostureiraPlus.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value; // 1. GARANTA QUE ESTE IMPORT EXISTE
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -24,6 +25,10 @@ public class SecurityConfig {
     @Autowired
     private UsuarioDetailsService usuarioDetailsService;
 
+    // 2. DECLARE A VARIÁVEL AQUI, NO NÍVEL DA CLASSE
+    @Value("${cors.origins}")
+    private String[] allowedOrigins;
+
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
         return new JwtAuthenticationFilter();
@@ -31,6 +36,8 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        // O SEU MÉTODO securityFilterChain CONTINUA IGUAL
+        // ... (todo o código do seu securityFilterChain)
         http
                 // Desabilita verificação CSRF para permitir POST com token JWT
                 .csrf(csrf -> csrf.disable())
@@ -108,17 +115,18 @@ public class SecurityConfig {
         return authProvider;
     }
 
+    // 3. ESTE MÉTODO AGORA IRÁ FUNCIONAR CORRETAMENTE
     @Bean
-	  public WebMvcConfigurer corsConfigurer() {
+	public WebMvcConfigurer corsConfigurer() {
 	    return new WebMvcConfigurer() {
 	      @Override
 	      public void addCorsMappings(CorsRegistry registry) {
 	        registry.addMapping("/**")
-	          .allowedOrigins("http://localhost:4200", "https://ds-guia12.netlify.app")
+	          .allowedOrigins(allowedOrigins) // A variável agora é visível aqui
 	          .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
 	          .allowedHeaders("*")
 	          .allowCredentials(true);
 	      }
 	    };
-	  }    
+	}    
 }
