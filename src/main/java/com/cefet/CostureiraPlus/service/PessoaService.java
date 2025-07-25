@@ -1,6 +1,7 @@
 package com.cefet.CostureiraPlus.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -9,8 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cefet.CostureiraPlus.dto.PessoaDTO;
 import com.cefet.CostureiraPlus.entities.NivelAcesso;
+import com.cefet.CostureiraPlus.entities.Pedido;
 import com.cefet.CostureiraPlus.entities.Pessoa;
 import com.cefet.CostureiraPlus.entities.Usuario;
+import com.cefet.CostureiraPlus.repositories.PedidoRepository;
 import com.cefet.CostureiraPlus.repositories.PessoaRepository;
 import com.cefet.CostureiraPlus.repositories.UsuarioRepository;
 
@@ -25,6 +28,8 @@ public class PessoaService {
     private UsuarioRepository usuarioRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PedidoRepository pedidoRepository;
 
     // Buscar todos
     public List<PessoaDTO> findAll() {
@@ -134,5 +139,15 @@ public class PessoaService {
     // Remover por cpf
     public void deleteByCpf(String cpf) {
         pessoaRepository.deleteByCpf(cpf);
+    }
+
+    public List<PessoaDTO> findClientesDaCostureira(Long costureiraId) {
+        List<Pedido> pedidos = pedidoRepository.findByUsuarioCostureiraId(costureiraId);
+
+        return pedidos.stream()
+                      .map(pedido -> pedido.getUsuarioCliente().getPessoa())
+                      .distinct()
+                      .map(PessoaDTO::new) 
+                      .collect(Collectors.toList());
     }
 }

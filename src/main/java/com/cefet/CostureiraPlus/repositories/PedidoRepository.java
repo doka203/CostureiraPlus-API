@@ -8,4 +8,5 @@ import com.cefet.CostureiraPlus.entities.Pedido;
 
 public interface PedidoRepository extends JpaRepository<Pedido, Long> {
     List<Pedido> findByUsuarioClienteId(Long usuarioId);
+    List<Pedido> findByUsuarioCostureiraId(Long usuarioId);
 }

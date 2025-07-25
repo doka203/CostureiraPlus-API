@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cefet.CostureiraPlus.dto.PessoaDTO;
 import com.cefet.CostureiraPlus.dto.UsuarioDTO;
+import com.cefet.CostureiraPlus.security.UsuarioDetails;
 import com.cefet.CostureiraPlus.service.PessoaService;
 import com.cefet.CostureiraPlus.service.UsuarioService;
 
@@ -118,4 +121,14 @@ public class PessoaController {
 		return ResponseEntity.noContent().build();
 	}
 
+	@GetMapping("/meus-clientes")
+    @Operation(summary = "Lista os clientes da costureira logada")
+    public ResponseEntity<List<PessoaDTO>> getMeusClientes() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UsuarioDetails usuarioDetails = (UsuarioDetails) authentication.getPrincipal();
+        long costureiraId = usuarioDetails.getUsuario().getId();
+
+        List<PessoaDTO> clientes = pessoaService.findClientesDaCostureira(costureiraId);
+        return ResponseEntity.ok(clientes);
+    }
 }
