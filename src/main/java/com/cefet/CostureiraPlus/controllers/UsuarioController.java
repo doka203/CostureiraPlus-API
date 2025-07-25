@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +20,7 @@ import com.cefet.CostureiraPlus.dto.PedidoDTO;
 import com.cefet.CostureiraPlus.dto.UsuarioDTO;
 import com.cefet.CostureiraPlus.dto.VisitaDTO;
 import com.cefet.CostureiraPlus.entities.Usuario;
+import com.cefet.CostureiraPlus.security.UsuarioDetails;
 import com.cefet.CostureiraPlus.service.PedidoService;
 import com.cefet.CostureiraPlus.service.UsuarioService;
 import com.cefet.CostureiraPlus.service.VisitaService;
@@ -26,7 +29,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.RequestParam;
-
 
 @RestController
 @RequestMapping("/usuarios")
@@ -40,49 +42,60 @@ public class UsuarioController {
 	@Autowired
 	private VisitaService VisitaService;
 
-	public UsuarioController(UsuarioService usuarioService){
+	public UsuarioController(UsuarioService usuarioService) {
 		this.usuarioService = usuarioService;
 	}
 
 	@PostMapping
 	@Operation(summary = "Criar usuário", description = "Cria um novo usuário.")
 	public ResponseEntity<?> criarUsuario(@RequestBody Usuario usuario) {
-		try{
+		try {
 			Usuario novoUsuario = usuarioService.criaUsuario(usuario);
 			return ResponseEntity.status(HttpStatus.CREATED).body(novoUsuario);
-		} catch(IllegalArgumentException e){
+		} catch (IllegalArgumentException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
-	
+
+	/*
+	 * @GetMapping
+	 * 
+	 * @Operation(summary = "Listar todos os usuários", description =
+	 * "Retorna a lista de todos os usuários cadastrados.")
+	 * public List<Usuario> listarUsuarios() {
+	 * return usuarioService.listarUsuarios();
+	 * }
+	 */
+
 	@GetMapping
 	@Operation(summary = "Listar todos os usuários", description = "Retorna a lista de todos os usuários cadastrados.")
-	public List<Usuario> listarUsuarios() {
-		return usuarioService.listarUsuarios();
+	public ResponseEntity<List<UsuarioDTO>> findAll() {
+		List<UsuarioDTO> usuarioDTOs = usuarioService.findAll();
+		return ResponseEntity.ok(usuarioDTOs);
 	}
-	
 
 	@GetMapping("/{id}")
 	@Operation(summary = "Buscar usuário por ID", description = "Retorna os dados de um usuário específico.")
 	public ResponseEntity<UsuarioDTO> findById(
-			@Parameter(description = "ID do usuario a ser buscado", example = "1")
-			@PathVariable Long id) {
+			@Parameter(description = "ID do usuario a ser buscado", example = "1") @PathVariable Long id) {
 		UsuarioDTO usuarioDTO = usuarioService.findById(id);
 		return ResponseEntity.ok(usuarioDTO);
 	}
 
 	// @GetMapping
-	// @Operation(summary = "Listar todos os usuários", description = "Retorna a lista de todos os usuários cadastrados.")
+	// @Operation(summary = "Listar todos os usuários", description = "Retorna a
+	// lista de todos os usuários cadastrados.")
 	// public ResponseEntity<List<UsuarioDTO>> findAll() {
-	// 	List<UsuarioDTO> usuarioDTOs = usuarioService.findAll();
-	// 	return ResponseEntity.ok(usuarioDTOs);
+	// List<UsuarioDTO> usuarioDTOs = usuarioService.findAll();
+	// return ResponseEntity.ok(usuarioDTOs);
 	// }
 
 	// @PostMapping
 	// @Operation(summary = "Criar usuário", description = "Cria um novo usuário.")
-	// public ResponseEntity<UsuarioDTO> create(@RequestBody UsuarioDTO usuarioDTO) {
-	// 	UsuarioDTO usuarioNovo = usuarioService.insert(usuarioDTO);
-	// 	return ResponseEntity.status(201).body(usuarioNovo);
+	// public ResponseEntity<UsuarioDTO> create(@RequestBody UsuarioDTO usuarioDTO)
+	// {
+	// UsuarioDTO usuarioNovo = usuarioService.insert(usuarioDTO);
+	// return ResponseEntity.status(201).body(usuarioNovo);
 	// }
 
 	@PutMapping("/{id}")
@@ -105,11 +118,22 @@ public class UsuarioController {
 		List<PedidoDTO> pedidos = pedidoService.findPedidosByClienteId(id);
 		return ResponseEntity.ok(pedidos);
 	}
-	
+
 	@GetMapping("/{id}/visitas")
 	@Operation(summary = "Listar visitas do usuário", description = "Retorna a lista de todas as visitas de um usuário cadastrado.")
 	public ResponseEntity<List<VisitaDTO>> listarVisitasdoUsuario(@PathVariable Long id) {
 		List<VisitaDTO> visitas = VisitaService.findVisitasByClienteId(id);
 		return ResponseEntity.ok(visitas);
+	}
+
+	@GetMapping("/me")
+	@Operation(summary = "Busca os dados do usuário autenticado")
+	public ResponseEntity<UsuarioDTO> getMeuPerfil() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UsuarioDetails usuarioDetails = (UsuarioDetails) authentication.getPrincipal();
+
+		UsuarioDTO usuarioDTO = usuarioService.findById(usuarioDetails.getUsuario().getId());
+
+		return ResponseEntity.ok(usuarioDTO);
 	}
 }
